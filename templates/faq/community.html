@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content%}
+    <main>
+        {% csrf_token %}
+        <section class="middle-section">
+            <div class="faq-container community">
+            <h2>1 : 1 문의</h2>
+                <div class="btnBox-header">
+                    <a class="btn-community" href="{% url 'askForm' %}">
+                        1:1 문의 하기
+                    </a>
+                </div>
+                <table class="community-table">
+                    <thead>
+                        <tr>
+                            <td>상담유형</td>
+                            <td>제목</td>
+                            <td>작성일</td>
+                            <td>답변여부</td>
+                        </tr>
+                    </thead>
+                    <tbody id="community_body">
+                        <tr>
+                            <td class="all" colspan="4">
+                                <p>문의하실때 사용하신 email을 입력하여주세요</p>
+                                <input type="text" class="form-input" name='email'>
+                                <button class="btn" id="emailConfirm">입력</button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
+{% block extra-script %}
+    <script>
+        $(function() {
+
+            $("#emailConfirm").on("click", function(){
+                let email = $("input[name='email']").val();
+                console.log(email)
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                data = {email: email}
+                let community_url = "{% url 'getAskInformation' %}"
+
+                if(!emailRegex.test(email)){
+                    alert("이메일 형식이 맞지 않습니다.")
+                    return false;
+                }else {
+                    sendRequest(data, community_url)
+                }
+            });
+        });
+
+        function sendRequest(data, url) {
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            $.ajax({
+                headers: {"X-CSRFToken": csrftoken},
+                url: url,
+                method: 'GET',
+                data: data,
+                success: function (response) {
+                    let tableDraw = ""
+                    var askList = response.data
+                    askList.forEach((ask)=>{
+                        tableDraw += `
+                            <tr class="question cursor-pointer">
+                                <td>${ ask.status }</td>
+                                <td>${ ask.title }</td>
+                                <td>${ ask.reg_date.split("T")[0] }</td>
+                                ${ask.respond_content == "" ? "<td>X</td>" : "<td>0</td>"}
+                            </tr>
+                            <tr class="answer" style="display: none">
+                                <td colspan="4">
+                                    <div class="ask-content">
+                                        ${ ask.content }
+                                    </div>
+                                    <div class="return-answer">
+                                        <pre>
+                                            ${ ask.respond_content }
+                                        </pre>
+                                    </div>
+                                </td>
+                            </tr>
+                        `
+                    });
+                    if(tableDraw === ""){
+                          tableDraw = `<tr>
+                                <td colspan="4" class="none-answer">
+                                    문의 내역이 없습니다.
+                                </td>
+                            </tr>`
+                    }
+                    $("#community_body").html(tableDraw)
+                    $(".question").on("click",function() {
+                        $(this).next(".answer").stop().slideToggle(300);
+                        $(this).toggleClass('on').siblings().removeClass('on');
+                        $(this).next(".answer").siblings(".answer").slideUp(300);
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+    </script>
+{% endblock extra-script %}

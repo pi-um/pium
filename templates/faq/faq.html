@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content%}
+    <main>
+    <section class="middle-section">
+        <div class="faq-container">
+            <h2>FAQ</h2>
+                <ul class="faq-table" id ="faqTable">
+                {% for faq in faqPost %}
+                    {% if faq.useyn == True%}
+                        <li>
+                            <div class="question">
+                                <pre>{{ faq.title }}</pre>
+                            </div>
+                            <div class="answer">
+                                <pre>{{ faq.answer }}</pre>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
+{% block extra-script %}
+    <script>
+        $(function() {
+            $(".question").click(function() {
+                $(this).next(".answer").stop().slideToggle(300);
+                $(this).toggleClass('on').siblings().removeClass('on');
+                $(this).next(".answer").siblings(".answer").slideUp(300);
+            });
+
+
+
+
+
+        });
+    </script>
+{% endblock extra-script %}

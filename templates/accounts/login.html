@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content%}
+    <section class="section-login">
+        <from class="login_box" action="{% url 'loginConfirm' %}">
+            {% csrf_token %}
+            <h2>MyPage</h2>
+            <p>예약하실때 사용하신<br>
+                email을 입력하여주세요</p>
+            <input type="text" class="login_input" name="email" placeholder="email을 입력하세요">
+            <input type="submit" class="btn-black" value="로그인">
+        </from>
+    </section>
+
+{% endblock %}
+
+{% block extra-script %}
+    <script>
+        $(function() {
+            $(".btn-black").on("click",function(){
+                let email = $("input[name='email']").val();
+                let url = "{% url 'loginConfirm' %}"
+                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                 data = {email: email}
+                 if(!emailRegex.test(email)){
+                    alert("이메일 형식이 맞지 않습니다.")
+                    return false;
+                }else {
+                     sendRequest(data,url)
+                 }
+
+            });
+        });
+
+
+        function sendRequest(data, url) {
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            let email = $("input[name='email']").val();
+            $.ajax({
+                headers: {"X-CSRFToken": csrftoken},
+                url: url,
+                method: 'get',
+                data: data,
+                success: function(success){
+                    console.log(success)
+                    if(success.status ==="emailNone") {
+                        alert("이메일 정보가 없습니다.")
+                    }else{
+                        window.location.href = "{% url 'myPage' %}"+"?email="+email
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+{% endblock extra-script %}

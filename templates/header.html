@@ -1,0 +1,63 @@
+{% block header%}
+  {%load static %}
+     <header class="header">
+        <nav class="header_wrap">
+          <h1 class="h-logo">
+            <a href="{% url "main" %}">
+              <img src="{% static 'img/logo.svg' %}" alt="pium">
+            </a>
+          </h1>
+          <ul class="h-menu">
+            <li>
+              <a href="{% url "aboutUs" %}">ABOUT US</a>
+            </li>
+            <li>
+                <a href="{% url "simpleExam" %}">PROGRAM</a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{% url 'simpleExam' %}">특별 진단</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'basicExam' %}">기본 진단</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'proExam' %}">프로 진단</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'bodyExam' %}">골격 및 체형 진단</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'consultExam' %}">컨설턴트 <br> 양성 과정</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+              <a href="{% url 'selftest' %}">SELF TEST</a>
+            </li>
+            <li>
+              <a href="{% url 'reservationMain' %}">RESERVATION</a>
+            </li>
+            <li>
+                <a href="{% url 'faqPage' %}">COMMUNITY</a>
+                <ul class="sub-menu type-two">
+                    <li>
+                        <a href="{% url 'faqPage' %}">FAQ</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'askInformationPage' %}">1:1 문의</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+              <a href="{% url 'login' %}">MYPAGE</a>
+            </li>
+          </ul>
+          <div class="h-right">
+            <div class="h-lang_wrap">
+              <button>KOR</button>
+            </div>
+{#            <a href="" class="h-login_btn">LOGIN</a>#}
+          </div>
+        </nav>
+  </header>
+{% endblock %}

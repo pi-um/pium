@@ -1,0 +1,374 @@
+{% extends 'selftest/base.html' %}
+{% block content %}
+
+    <main class="main">
+        <section class="explain-section">
+            <div class="explain-box">
+                <p class="progress-number">
+                    <span id="page_num">01</span>
+                    <span> / 03</span>
+                </p>
+                <h2 class="section-title" id="test_title">자신의 신체 지수를<br>
+                    입력해주세요.</h2>
+                <p class="section-comment" id="test_comment">※ 전체 단위는 mm입니다.</p>
+            </div>
+            <div class="progress-summary">
+                <h3 class="summary-title">체형/라인 셀프테스트</h3>
+                <ul class="progress-state">
+                    <li class="checked">01. 신체 치수 입력하기</li>
+                    <li>02. 설문지 체크하기</li>
+                    <li>03. 셀프 테스트 결과 보기</li>
+                </ul>
+            </div>
+        </section>  
+        <section class="checking-section show" id="page-one">
+            <div class="submit-box">
+                <div class="box-input">
+                    <label>내 어깨 넓이는?</label>
+                    <input type="number" min="0" name="shoulder" placeholder="어깨 넓이를 입력하여주세요">
+                </div>
+                <div class="box-input">
+                    <label>내 허리 너비는?</label>
+                    <input type="number" min="0" name="waist" placeholder="허리 너비를 입력해주세요.">
+                </div>
+                <div class="box-input">
+                    <label>내 골반 너비는?</label>
+                    <input type="number" min="0" name="pelvis" placeholder="골반 너비를 입력해주세요.">
+                </div>
+                <div class="box-input">
+                    <label>나는 허리선이 있는가?</label>
+                    <select name="line_type">
+                        <option value="" disabled  selected>있다/보통이다/없다 중 선택해주세요.</option>
+                        <option value="1">있다</option>
+                        <option value="2">보통이다</option>
+                        <option value="3">없다</option>
+                    </select>
+                </div>
+            </div>
+            <div class="box-button">
+                <button class="btn-gray btn">초기화</button>
+                <button class="btn-black btn">다음으로</button>
+            </div>
+        </section>
+        <section class="checking-section" id="page-two">
+          <div class="submit-box">
+              <strong class="radio-name">1. 나의 어깨 선은?</strong>
+              <div class="box-radio">
+                  <input value="1" name="shoulder_line" id="shoulder_a" type="radio">
+                  <label for="shoulder_a">각져있다</label>
+                  <input value="0" name="shoulder_line" id="shoulder_r" type="radio">
+                  <label for="shoulder_r">둥굴다</label>
+              </div>
+              <strong class="radio-name">2. 나의 갈비뼈는?</strong>
+              <div class="box-radio">
+                  <input value="1" name="rib" id="rib_a" type="radio">
+                  <label for="rib_a">각져있다</label>
+                  <input value="0" name="rib" id="rib_r" type="radio">
+                  <label for="rib_r">둥굴다</label>
+              </div>
+              <strong class="radio-name">3. 나의 골반 모양은?</strong>
+              <div class="box-radio">
+                  <input value="1" name="pelvis_line" id="pelvis_a" type="radio">
+                  <label for="pelvis_a">각져있다</label>
+                  <input value="0" name="pelvis_line" id="pelvis_r" type="radio">
+                  <label for="pelvis_r">둥굴다</label>
+              </div>
+              <strong class="radio-name">4. 나의 척추 모양은?</strong>
+              <div class="box-radio">
+                  <input value="1" name="spine" id="spine_a" type="radio">
+                  <label for="spine_a">일자다</label>
+                  <input value="0" name="spine" id="spine_r" type="radio">
+                  <label for="spine_r">휘어있다</label>
+              </div>
+              <strong class="radio-name">5. 나의 등라인은?</strong>
+              <div class="box-radio">
+                  <input value="1" name="back" id="back_a" type="radio">
+                  <label for="back_a">평평하다</label>
+                  <input value="0" name="back" id="back_r" type="radio">
+                  <label for="back_r">둥글다</label>
+              </div>
+              <strong class="radio-name">6. 나의 허리커브는?</strong>
+              <div class="box-radio">
+                  <input value="1" name="waist_line" id="waist_a" type="radio">
+                  <label for="waist_a">굴곡이 없다</label>
+                  <input value="0" name="waist_line" id="waist_r" type="radio">
+                  <label for="waist_r">굴곡이 있다</label>
+              </div>
+              <strong class="radio-name">7. 나의 힙라인은?</strong>
+              <div class="box-radio">
+                  <input value="1" name="hip" id="hip_a" type="radio">
+                  <label for="hip_a">평평하다</label>
+                  <input value="0" name="hip" id="hip_r" type="radio">
+                  <label for="hip_r">둥글다</label>
+              </div>
+          </div>
+          <div class="box-button">
+              <button class="btn-gray btn">이전으로</button>
+              <button class="btn-black btn">다음으로</button>
+          </div>
+      </section>
+      <section class="checking-section" id="page-three">
+       
+    </section>
+        
+      </main>
+    
+{% endblock %}
+
+{% block extra-script %}
+    <script>
+    
+    let shoulder = ""
+      let waist = ""
+      let pelvis = ""
+      let line_type = ""
+      let shoulder_line = ""
+      let rib = ""
+      let pelvis_line = ""
+      let spine = ""
+      let back = ""
+      let waist_line = ""
+      let hip = ""
+
+        $(function() {
+          // state: 
+          // heightcheck :신체 지수
+          // 
+          let state = "pageSecond"
+          const data = {
+            "pageOne":{
+              "page_num": "01",
+              "test_title": "자신의 신체 지수를<br> 입력해주세요.",
+              "test_comment": "※ 전체 단위는 mm입니다."
+            },
+            "pageSecond":{
+              "page_num": "02",
+              "test_title": "자신의 체형 유형을<br> 선택해주세요.",
+              "test_comment": "나의 체형은 어떻게 생겼을까?<br> 자신의 체형과 가까운 답변을 선택해주세요."
+            },
+            "pageThird":{
+              "page_num": "03",
+              "test_title": "셀프테스트 결과를 <br>확인해주세요.",
+              "test_comment": "나의 체형 결과는?"
+            }
+          }
+    
+            $('.btn.btn-black').on("click", function(){
+              shoulder = $('input[name=shoulder]').val()
+              waist = $('input[name=waist]').val()
+              pelvis = $('input[name=pelvis]').val()
+              line_type = $('select[name=line_type]').val()
+              shoulder_line = $('input[name=shoulder_line]:checked').val()
+              rib = $('input[name=rib]:checked').val()
+              pelvis_line = $('input[name=pelvis_line]:checked').val()
+              spine = $('input[name=spine]:checked').val()
+              back = $('input[name=back]:checked').val()
+              waist_line = $('input[name=waist_line]:checked').val()
+              hip = $('input[name=hip]:checked').val()
+
+              if(!checkOnePage()){
+                return false
+              }
+
+              switch(state){
+                case "pageOne":
+                  pageChange(data.pageOne)
+                  $(".checking-section").removeClass("show")
+                  $("#page-one").addClass("show")
+                  $(".progress-state li").removeClass('checked')
+                  $(".progress-state li:nth-child(1)").addClass('checked')
+                  state = "pageSecond"
+                  break;
+                case "pageSecond":
+                  pageChange(data.pageSecond)
+                  $(".checking-section").removeClass("show")
+                  $("#page-two").addClass("show")
+                  $(".progress-state li").removeClass('checked')
+                  $(".progress-state li:nth-child(2)").addClass('checked')
+                  state = "pageThird"
+                  break;
+                case "pageThird":
+                  pageChange(data.pageThird)
+                  $(".checking-section").removeClass("show")
+                  $("#page-three").addClass("show")
+                  buildResultPage()
+                  $(".progress-state li").removeClass('checked')
+                  $(".progress-state li:nth-child(3)").addClass('checked')
+                  window.scrollTo(0,0);
+                  break;
+              }
+            });
+
+            $('.btn.btn-gray').on("click", function(){
+              switch(state){
+                case "pageSecond":
+                  $('input[name=shoulder]').val("")
+                  $('input[name=waist]').val("")
+                  $('input[name=pelvis]').val("")
+                  $('select[name=line_type]').val("")
+                  break;
+                case "pageThird":
+                  pageChange(data.pageOne)
+                  $(".checking-section").removeClass("show")
+                  $("#page-one").addClass("show")
+                  $(".progress-state li").removeClass('checked')
+                  $(".progress-state li:nth-child(1)").addClass('checked')
+                  state = "pageSecond"
+                  break;
+              }
+            });
+        });
+
+        function checkOnePage(){
+          if( !shoulder ){
+            alert("어깨 넓이를 입력해주세요")
+            return false
+          }
+          if( !waist ){
+            alert("허리 너비를 입력해주세요")
+            return false
+          }
+          if( !pelvis ){
+            alert("골반 너비를 입력해주세요")
+            return false
+          }
+          if( !line_type ){
+            alert("허리선이 있는지 체크해주세요")
+            return false
+          }
+          return true
+        }
+
+        function pageChange(state){
+          let page_num = $('#page_num').text(state.page_num)
+          let test_title = $('#test_title').html(state.test_title)
+          let test_comment = $('#test_comment').html(state.test_comment)
+        }
+
+        function buildResultPage(){
+          const line_result_comment = {
+            "straight":{
+              "type": "스트레이트형",
+              "comment": "상체와 하체 라인이 모두 직선적인 당신! 얼굴과 몸의 특징들이 각져있고 날카로울 가능성이 있네요. 바디감이 많고 뻣뻣한 소재가 바디라인과 조화를 이룹니다. 너무 부드럽거나 늘어지는 소재는 돌출된 뼈를 더욱 두드러지게 보일 수 있을 것 같아요. 구조적 형태의 테일러드 디자인이 가능한 뻣뻣한 소재로 각진형의 바디라인을 보완해볼까요?"
+            },
+            "naturalstraight":{
+              "type": "네추럴 스트레이트형",
+              "comment": "직선과 곡선의 성향을 모두 가진 네추럴 중에서도 직선적인 라인이 조금 더 두드러지는 당신. 무게감이 있으면서도 약간의 움직임을 가지는 소재를 활용해볼까요? 소프트한 테일러드 디자인 소재를 활용하기 좋아요. 스트레이트형만큼은 아니지만, 구조적인 디자인도 잘 소화할 수 있습니다."
+            },
+            "natural":{
+              "type": "네추럴 커브형",
+              "comment": "직선과 곡선의 성향을 모두 가진 네추럴 중에서도 곡선적인 라인이 조금 더 두드러지는 당신. 부드럽게 떨어지는 소재와 라인이 있는 소재가 바디라인과 조화를 이룹니다. 살짝 흐르는 부드러운 느낌의 소재를 사용해 소프트한 드레이핑 디자인을 활용해볼까요? 소재의 무게감보다는 떨어지는 방식에 집중합시다."
+            },
+            "typecurb":{
+              "type": "커브형",
+              "comment": "전체적으로 둥글며 곡선적인 라인을 가지는 커브형은 바디감 없이 느슨하게 떨어지는 소재를 사용해야 해요. 네추럴 커브형처럼 소재의 두께보다는 떨어지는 방식에 초점을 맞춰봅시다. 움직일 때 우아하게 몸을 타고 흐르는 소재를 선택해주세요. 폭포처럼 흐르는 유연한 소재가 바디라인과 잘 어울릴 거예요."
+            },
+          }
+          const body_result_comment = {
+            "Xtype":{
+                "type": "X형",
+                "comment": "어깨와 골반이 동일선상에 위치하며 허리 라인이 드러나는 체형으로, 상체와 하체가 균형잡힌 체형이다. 상하의 볼륨감을 전체적으로 비슷하게 맞추어, 시선이 상체나 하체 어느 한 곳으로 쏠리지 않게 한다. 허리선이 드러나는 디자인을 활용하거나 벨트나 악세사리, 패턴 등을 허리 근처에 매치해 잘록한 허리선을 부각해보자."
+                ,"img": "/static/img/selftest/typeX.png"
+            },
+            "Htype":{
+              "type": "H형",
+              "comment": "어깨와 골반이 동일선상에 위치하지만 허리라인이 드러나지 않는 체형으로, 허리에 시선이 가지 않도록 코디하면 좋을 타입이다.굴곡이 없는 몸선이 드러나는 타이트한 핏 보다는 살짝 여유있는 스타일로 연출하고 포인트컬러를 활용해 시선을 분산시키는 스타일링이 적합하다. 특히 목선에 포인트를 주는 동시에 하의 밑단 등에 포인트가 들어간 아이템을 매치해 시선이 자연스럽게 위 아래로 흩어질 수 있도록 하자."
+                ,"img": "/static/img/selftest/typeH.png"
+            },
+            "Ytype":{
+                "type": "Y형",
+                "comment": "어깨가 골반보다 넓은 체형으로, 하의에 볼륨감을 주거나 하체쪽으로 시선이 머무를 수 있도록 포인트를 주어보자.상의는 단색의 깔끔한 소재나 넓고 깊은 목선으로 어깨가 넓어보이지 않도록 해주며, 하의에 포인트를 주어 시선이 자연스럽게 아래로 흐르게 하자. 플레어나 러플 등의 디자인으로 볼륨감을 살려도 좋겠네요."
+                ,"img": "/static/img/selftest/typeY.png"
+            },
+            "Atype":{
+                "type": "A형",
+                "comment": "골반이 어깨보다 넓은 체형으로, 상의에 볼륨감을 주거나 시선이 상체로 향할 수 있는 스타일링이 적합하다. 상의에 화려한 패턴이나 프린트를 사용해 시선을 자연스럽게 상체로 잡거나, 어깨 패드 및 장식을 활용해보자. 목에 가까운 닫힌 목선 상의를 활용해 어깨 면적을 넓히고, 카라나 러플은 작게 활용하자. 하의에는 단색의 아이템을 사용해 하체가 강조되지 않도록 하며, 허리선에 살짝 여유를 주어 허리에서 골반까지 완만한 각을 연출하면 어떨까?",
+                "img" : "/static/img/selftest/typeA.png"
+            },
+          }
+
+          let line_count = parseInt(shoulder_line) + parseInt(rib) + parseInt(pelvis_line) + parseInt(spine) + parseInt(back) + parseInt(waist_line) + parseInt(hip)
+          let line_result = line_result_comment.straight
+          let body_reslut = body_result_comment.Xtype
+
+          if(line_count == 7){
+            line_result = line_result_comment.straight
+          }else if ( line_count >= 5  ) {
+            line_result = line_result_comment.naturalstraight
+          }else if (line_count >=3 ) {
+            line_result = line_result_comment.natural
+          }else {
+            line_result = line_result_comment.typecurb
+          }
+
+          if (line_type == 1) {
+            body_reslut = body_result_comment.Xtype
+          } else if (line_type == 3){
+            body_reslut = body_result_comment.Htype
+          }
+
+          let longerlength = shoulder - pelvis
+          if (longerlength >= 5){
+            body_reslut = body_result_comment.Ytype
+          }else if(longerlength <= -5){
+            body_reslut = body_result_comment.Atype
+          } else {
+            if (line_type == 1) {
+              body_reslut = body_result_comment.Xtype
+            } else {
+              body_reslut = body_result_comment.Htype
+            }
+          }
+
+          let page =`
+          <div class="result-box">
+            <div class="type-title-box">
+                <p class="type-title">
+                    <span>체형결과</span><br>
+                    ${body_reslut.type}, ${line_result.type}
+                </p>
+                <img src="${body_reslut.img}"  alt="" class="title-img">
+            </div>
+            <h3>내 신체지수 및 체형 유형</h3>
+            <div class="self-choice">
+                <ul class="show-choice">
+                    <li>내 어깨 넓이 : ${shoulder}mm</li>
+                    <li>내 허리 너비 : ${waist}mm</li>
+                    <li>내 골반 너비 : ${pelvis}mm</li>
+                    <li>나는 허리선이 있는가?<br> ${(line_type==1)? "있다" : "보통이다, 없다"}</li>
+                </ul>
+                <ul class="show-choice">
+                    <li>어깨선 : ${(shoulder_line==1)? "각져있다" : "둥글다" }</li>
+                    <li>갈비뼈 : ${(rib==1)? "직선이다" : "둥글다" }</li>
+                    <li>골반 모양 : ${(pelvis_line==1)? "각져있다" : "둥글다" }</li>
+                    <li>척추 모양 : ${(spine==1)? "일자다" : "휘어있다" }</li>
+                    <li>등 라인 : ${(back==1)? "평평하다" : "둥글다" }</li>
+                    <li>허리커브 : ${(waist_line==1)? "굴곡이없다" : "굴곡이있다" }</li>
+                    <li>힙라인 : ${(hip==1)? "평평하다" : "둥글다" }</li>
+                </ul>
+            </div>
+            <div class="box-explain">
+                <h4>${ body_reslut.type }</h4>
+                <p>
+                  ${ body_reslut.comment }    
+                </p>
+            </div>
+            <div class="box-explain">
+                <h4>${ line_result.type }</h4>
+                <p>
+                  ${ line_result.comment }    
+                </p>
+            </div>
+        </div>
+        <div class="box-link">
+            <p>더욱 자세한 진단결과를 알고 싶다면?</p>
+            <a class="btn-black" href="#">Fit Blossom 예약하러 가기</a>
+        </div>
+          `
+          $('#page-three').html(page)
+        }
+</script>
+    
+    
+    
+{% endblock extra-script %}

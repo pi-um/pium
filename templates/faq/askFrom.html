@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content%}
+    <main>
+        <section class="form-section">
+            <div class="faq-container community">
+            <h2>1 대 1 문의 하기</h2>
+            <form action="{% url 'postAskForm' %}" method="post" id="askForm">
+                {% csrf_token %}
+                <table class="ask-table">
+                    <tbody id="ask-table">
+                        <tr>
+                            <td>
+                                상당 유형
+                            </td>
+                            <td>
+                                <select name="status" class="from-input">
+                                    <option value="E" >상담 유형을 선택해주세요</option>
+                                    <option value="P">결제 / 예약</option>
+                                    <option value="A" >상담</option>
+                                    <option value="E" >기타</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                상담자명
+                            </td>
+                            <td>
+                                <input name="name" class="from-input" placeholder="이름을 입력하세요"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                이메일
+                            </td>
+                            <td>
+                                <input name="email" class="from-input" placeholder="이메일을 입력하세요"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                제목
+                            </td>
+                            <td>
+                                <input name="title" class="from-input" placeholder="제목을 입력하세요"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                내용
+                            </td>
+                            <td>
+                                <textarea type="text" name="content" class="from-input"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </form>
+                <div class="error-message" id="errorMessage"></div>
+                <div class="ask-btn-box">
+                    <a href="{% url 'askInformationPage' %}" class="btn">이전으로</a>
+                    <a id="submitBtn" class="btn enroll">등록하기</a>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+
+{% block extra-script %}
+    <script>
+        $(function() {
+            $(".question").click(function() {
+                $(this).next(".answer").stop().slideToggle(300);
+                $(this).toggleClass('on').siblings().removeClass('on');
+                $(this).next(".answer").siblings(".answer").slideUp(300);
+            });
+
+            $("#submitBtn").click(function() {
+                var isValid = true;
+
+                // Loop through each input field
+                $("input, select, textarea").each(function() {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                        $(this).addClass("error");
+                    } else {
+                        $(this).removeClass("error");
+                    }
+                });
+
+            if (isValid) {
+                // Form is valid, you can submit it or perform other actions
+                $("#errorMessage").html("");
+                $("#askForm").submit(); // Submit the form
+            } else {
+                $("#errorMessage").html("모든 폼을 입력하여주세요");
+            }
+        });
+
+        });
+
+    </script>
+{% endblock extra-script %}
